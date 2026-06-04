@@ -12,20 +12,16 @@ mkdir -p "$PROJECT_ROOT/ThirdParty"
 
 if [ ! -d "$PROJECT_ROOT/JUCE" ]; then
 
-```
 echo "Downloading JUCE..."
 
 git clone \
     --depth 1 \
     https://github.com/juce-framework/JUCE.git \
     "$PROJECT_ROOT/JUCE"
-```
 
 else
 
-```
 echo "JUCE already exists."
-```
 
 fi
 
@@ -33,7 +29,6 @@ fi
 
 if [ ! -d "$PROJECT_ROOT/ThirdParty/onnxruntime" ]; then
 
-```
 echo "Downloading ONNX Runtime..."
 
 mkdir -p "$PROJECT_ROOT/ThirdParty"
@@ -48,13 +43,10 @@ mv onnxruntime-osx-arm64-1.22.0 \
    "$PROJECT_ROOT/ThirdParty/onnxruntime"
 
 rm onnxruntime.tgz
-```
 
 else
 
-```
 echo "ONNX Runtime already exists."
-```
 
 fi
 
@@ -62,7 +54,6 @@ fi
 
 if [ ! -d "$PROJECT_ROOT/ThirdParty/libtorch" ]; then
 
-```
 echo "Downloading LibTorch..."
 
 curl -L \
@@ -75,18 +66,53 @@ mv libtorch \
    "$PROJECT_ROOT/ThirdParty/libtorch"
 
 rm libtorch.zip
-```
 
 else
 
-```
 echo "LibTorch already exists."
-```
 
 fi
 
 echo ""
 echo "Dependencies installed successfully."
+echo ""
+
+#
+# VoiceFixer Models
+#
+
+MODEL_VERSION="v0.1.0"
+
+if [ ! -f "$PROJECT_ROOT/Source/Assets/voicefixer_generator.onnx" ]; then
+
+    echo "Downloading VoiceFixer Generator..."
+
+    curl -L \
+        -o "$PROJECT_ROOT/Source/Assets/voicefixer_generator.onnx" \
+        "https://github.com/Thomas40522/NeuralVoiceFixer/releases/download/${MODEL_VERSION}/voicefixer_generator.onnx"
+
+else
+
+    echo "Generator model already exists."
+
+fi
+
+if [ ! -f "$PROJECT_ROOT/Source/Assets/voicefixer_vocoder.onnx" ]; then
+
+    echo "Downloading VoiceFixer Vocoder..."
+
+    curl -L \
+        -o "$PROJECT_ROOT/Source/Assets/voicefixer_vocoder.onnx" \
+        "https://github.com/Thomas40522/NeuralVoiceFixer/releases/download/${MODEL_VERSION}/voicefixer_vocoder.onnx"
+
+else
+
+    echo "Vocoder model already exists."
+
+fi
+
+echo ""
+echo "Models installed successfully."
 echo ""
 echo "You may now run:"
 echo ""
